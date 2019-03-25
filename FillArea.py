@@ -330,9 +330,9 @@ STEP         = '-'
                             for dx in [-offset, offset]:
                                 for dy in [-offset, offset]:                                            # All 4 corners of the via are testet (upper, lower, left, right) but not the center
                                     point_to_test   = wxPoint(current_x + dx, current_y + dy)
-                                    hit_test_area   = area.HitTestFilledArea(point_to_test)                 # Collides with a filled area
-                                    hit_test_edge   = area.HitTestForEdge(point_to_test)                    # Collides with an edge/corner
-                                    hit_test_zone   = area.HitTestInsideZone(point_to_test)                 # Is inside a zone
+                                    hit_test_area   = area.HitTestFilledArea(point_to_test)             # Collides with a filled area
+                                    hit_test_edge   = area.HitTestForEdge(point_to_test, 0)             # Collides with an edge/corner
+                                    hit_test_zone   = area.HitTestInsideZone(point_to_test)             # Is inside a zone
                                     
                                     test_result &= ((hit_test_area or hit_test_zone) and not hit_test_edge) # test_result only remains true if the via is inside an area and not on an edge
 
@@ -475,7 +475,7 @@ STEP         = '-'
         print ("Remove vias to guarantee step size...")
         clear_distance = 0
         if self.step != 0:
-            clear_distance = ((self.step+l_clearance) / l_clearance)       # How much "via steps" should be removed around a via (round up)
+            clear_distance = ((self.step+l_clearance) // l_clearance)       # How much "via steps" should be removed around a via (round up)
         
         for x in range(len(rectangle)):
             for y in range(len(rectangle[0])):

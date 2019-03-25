@@ -17,14 +17,13 @@
 #  along with this program; if not, write to the Free Software
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
-import pcbnew
-import FillArea
-import wx
-import FillAreaDialog
 import traceback
+import pcbnew
+import wx
+from .FillArea import FillArea
+from .FillAreaDialog import FillAreaDialog
 
-
-class FillAreaDialogEx(FillAreaDialog.FillAreaDialog):
+class FillAreaDialogEx(FillAreaDialog):
 
     def onDeleteClick(self, event):
         return self.EndModal(wx.ID_DELETE)
@@ -51,7 +50,7 @@ class FillAreaAction(pcbnew.ActionPlugin):
         modal_result = a.ShowModal()
         if modal_result == wx.ID_OK:
             try:
-                fill = FillArea.FillArea()
+                fill = FillArea()
                 fill.SetStepMM(float(a.m_StepMM.GetValue()))
                 fill.SetSizeMM(float(a.m_SizeMM.GetValue()))
                 fill.SetDrillMM(float(a.m_DrillMM.GetValue()))
@@ -68,7 +67,7 @@ class FillAreaAction(pcbnew.ActionPlugin):
                                 style=wx.OK | wx.ICON_ERROR)
         elif modal_result == wx.ID_DELETE:
             try:
-                fill = FillArea.FillArea()
+                fill = FillArea()
                 fill.SetNetname(a.m_Netname.GetValue())
                 fill.SetDebug(a.m_Debug.IsChecked())
                 fill.DeleteVias()
